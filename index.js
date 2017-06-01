@@ -26,7 +26,7 @@ user1.save(function(err){
     console.log(user1);
 });
 
-res.send("successfully resistered")
+res.send({success: true, msg: 'Authentication successfully'});
 	
 });
 
@@ -35,12 +35,23 @@ app.get('/login', function(req,res){
 var id = req.query.login
 var pass = req.query.pass
 
-user.find({} , function(err,data){
-			if(err) throw err
-			console.log(data[0].password)
+user.findOne({
+    username: req.query.login
+  }, function(err, user) {
+    if (err) throw err;
+ 
+    if (!user) {
+      res.send({success: false, msg: 'Authentication failed. User not found.'});
+    }else{
+    	var password = user.password
+    	if(req.query.pass == password)
+    	      res.send({success: true, msg: 'Authentication successfully. User found.'});
+    	  else
+    	  	      res.send({success: false, msg: 'Wrong password'});
 
-		})
+    }
 	
+})
 })
 
 app.listen(3000, function(){
