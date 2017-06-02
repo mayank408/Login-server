@@ -17,7 +17,7 @@ var user = mongoose.model('user', schema);
 
 
 
-app.get('/register', function(req,res){
+app.post('/register', function(req,res){
 var user1 = new user({username : req.query.login , password : req.query.pass})
 
 user.findOne({
@@ -44,7 +44,7 @@ else{
 });
 
 
-app.get('/login', function(req,res){
+app.post('/login', function(req,res){
 var id = req.query.login
 var pass = req.query.pass
 
